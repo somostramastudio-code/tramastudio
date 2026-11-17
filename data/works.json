@@ -872,9 +872,9 @@
   {
     "name": "CHER BAFWEEK",
     "client": "CherMix",
-    "service": "Asistente de producción y estilism",
+    "service": "Asistente de producción y estilismo",
     "text": "",
-    "team": "",
+    "team": "Produ",
     "ci": 0,
     "media": [
       {
@@ -904,6 +904,10 @@
       {
         "t": "img",
         "u": "media/trabajo-12/1794934483779-9.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-12/1794934488582-11.jpg"
       }
     ]
   }
