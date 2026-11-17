@@ -572,7 +572,12 @@
     "text": "",
     "team": "Creación y edición del contenido: Oriana Sorrentino\nDiseño Gráfico: Sofía Ugrotte",
     "ci": 0,
-    "media": []
+    "media": [
+      {
+        "t": "vid",
+        "u": "media/trabajo-8/1794917698255-0.mov"
+      }
+    ]
   },
   {
     "name": "",
