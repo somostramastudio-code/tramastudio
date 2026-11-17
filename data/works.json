@@ -694,12 +694,17 @@
     ]
   },
   {
-    "name": "",
+    "name": "ROOT Redes",
     "client": "",
     "service": "",
     "text": "",
     "team": "",
     "ci": 0,
-    "media": []
+    "media": [
+      {
+        "t": "vid",
+        "u": "media/trabajo-10/1794927207512-0.mov"
+      }
+    ]
   }
 ]
