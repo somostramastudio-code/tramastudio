@@ -229,10 +229,22 @@ button:focus-visible,a:focus-visible{outline:2px solid #FFCAD0;outline-offset:-6
 <button type="button" onClick="{{ closeP }}" style="min-height: 48px; padding: 0 22px; background: transparent; color: #FFCAD0; border: 1px solid #FFCAD0; border-radius: 999px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 19px">Cerrar</button>
 </div>
 </div>
+<sc-if value="{{ askToken }}" hint-placeholder-val="{{ false }}">
+<form onSubmit="{{ onToken }}" style="display: flex; flex-direction: column; gap: 12px; padding: 18px; border: 1px solid #FFCAD0; max-width: 560px">
+<label for="trama-token" style="font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #FFCAD0">Clave de GitHub del estudio</label>
+<input id="trama-token" name="token" type="password" autocomplete="off" style="width: 100%; box-sizing: border-box; padding: 12px 14px; background: transparent; color: #FEFFFA; border: 1px solid rgba(254,255,250,0.45); border-radius: 0; font-family: 'Raleway', system-ui, sans-serif; font-size: 16px; line-height: 1.4">
+<span style="font-size: 14px; font-weight: 300">Se pide una sola vez en cada dispositivo.</span>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<button type="submit" style="min-height: 44px; padding: 0 12px; background: #000000; color: #FEFFFA; border: 1px solid rgba(254,255,250,0.6); cursor: pointer; font-family: 'Raleway', system-ui, sans-serif; font-size: 13px; font-weight: 500; border-color: #FFCAD0; color: #FFCAD0">Entrar a editar</button>
+<span role="status" style="font-size: 14px; font-weight: 500; color: #FFCAD0">{{tokMsg}}</span>
+</div>
+</form>
+</sc-if>
 <sc-if value="{{ editing }}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 1px solid #FFCAD0">
 <span role="status" style="font-size: 14px; font-weight: 500; color: #FFCAD0">{{saveMsg}}</span>
 <button type="button" onClick="{{ resetP }}" style="min-height: 44px; padding: 0 12px; background: #000000; color: #FEFFFA; border: 1px solid rgba(254,255,250,0.6); cursor: pointer; font-family: 'Raleway', system-ui, sans-serif; font-size: 13px; font-weight: 500">Restaurar este trabajo</button>
+<button type="button" onClick="{{ logout }}" style="min-height: 44px; padding: 0 12px; background: #000000; color: #FEFFFA; border: 1px solid rgba(254,255,250,0.6); cursor: pointer; font-family: 'Raleway', system-ui, sans-serif; font-size: 13px; font-weight: 500">Salir</button>
 </div>
 </sc-if>
 <div style="columns: 4 160px; column-gap: 8px">
@@ -376,7 +388,7 @@ window.DCLogic = DCLogic;
 </script>
 <script>
 class Component extends DCLogic {
-state = { started: false, sound: false, done: false, funIn: false, wIn: false, open: -1, edit: false, data: null, saveMsg: 'Los cambios se guardan solos en este dispositivo.', step: -1, manual: false, vw: 0, vh: 0 };
+state = { started: false, sound: false, done: false, funIn: false, wIn: false, open: -1, edit: false, data: null, askToken: false, tokMsg: '', saveMsg: 'Los cambios se guardan solos y se publican en 1 o 2 minutos.', step: -1, manual: false, vw: 0, vh: 0 };
 
 setStage = (el) => { if (el) this.stage = el; };
 setBg = (el) => { if (el) this.bg = el; };
@@ -497,117 +509,117 @@ const d = (this.state || {}).data || this.defaults();
 return d.map((p) => Object.assign({}, p, { media: p.media.map((m) => Object.assign({}, m)) }));
 }
 
-idb() {
-return new Promise((res, rej) => {
-try {
-const r = window.indexedDB.open('trama_works', 1);
-r.onupgradeneeded = () => { r.result.createObjectStore('m'); };
-r.onsuccess = () => res(r.result);
-r.onerror = () => rej(r.error);
-} catch (err) { rej(err); }
-});
+REPO = 'somostramastudio-code/tramastudio';
+
+token() {
+try { return window.localStorage.getItem('trama_gh_token') || ''; } catch (err) { return ''; }
 }
 
-idbPut(k, blob) {
-return this.idb().then((db) => new Promise((res, rej) => {
-const tx = db.transaction('m', 'readwrite');
-tx.objectStore('m').put(blob, k);
-tx.oncomplete = () => res();
-tx.onerror = () => rej(tx.error);
+canEdit() {
+return /[?&]edit\b/.test(window.location.search);
+}
+
+b64(str) {
+return btoa(unescape(encodeURIComponent(str)));
+}
+
+unb64(str) {
+return decodeURIComponent(escape(atob(String(str).replace(/\s/g, ''))));
+}
+
+gh(method, path, body, tok) {
+const t = tok || this.token();
+const url = 'https://api.github.com/repos/' + this.REPO + (path ? '/contents/' + path.split('/').map(encodeURIComponent).join('/') : '');
+return fetch(url + (method === 'GET' && path ? '?ref=main&t=' + Date.now() : ''), {
+method: method,
+headers: { 'Authorization': 'Bearer ' + t, 'Accept': 'application/vnd.github+json' },
+body: body ? JSON.stringify(body) : undefined
+}).then((r) => r.json().catch(() => ({})).then((j) => {
+if (r.status === 404 && method === 'GET' && path) return null;
+if (!r.ok) { const e = new Error(j.message || ('HTTP ' + r.status)); e.status = r.status; throw e; }
+return j;
 }));
 }
 
-idbGet(k) {
-return this.idb().then((db) => new Promise((res, rej) => {
-const rq = db.transaction('m', 'readonly').objectStore('m').get(k);
-rq.onsuccess = () => res(rq.result);
-rq.onerror = () => rej(rq.error);
-}));
+normalize(arr) {
+const base = this.defaults();
+const str = (v) => (typeof v === 'string' ? v : '');
+for (let i = 0; i < base.length; i++) {
+const sp = arr[i];
+if (!sp || typeof sp !== 'object') continue;
+const media = (Array.isArray(sp.media) ? sp.media : []).filter((m) => m && (m.t === 'img' || m.t === 'vid') && typeof m.u === 'string' && m.u).map((m) => ({ t: m.t, u: m.u, src: m.u }));
+const ci = (typeof sp.ci === 'number' && sp.ci >= 0 && sp.ci < media.length) ? sp.ci : 0;
+base[i] = { name: str(sp.name), client: str(sp.client), service: str(sp.service), text: str(sp.text), team: str(sp.team), ci: ci, media: media };
+}
+return base;
 }
 
 loadWorks() {
-setTimeout(() => {
-try { this.loadWorksRaw(); }
-catch (err) {
-try { this.setState({ data: this.defaults() }); } catch (e2) {}
+const apply = (arr) => {
+if (Array.isArray(arr) && arr.length) {
+try { this.setState({ data: this.normalize(arr) }); } catch (err) {}
 }
-}, 60);
+};
+const viaSite = () => fetch('data/works.json?v=' + Date.now(), { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).then(apply).catch(() => {});
+if (this.canEdit() && this.token()) {
+return this.gh('GET', 'data/works.json').then((r) => {
+if (!r) { this.worksSha = null; return; }
+this.worksSha = r.sha;
+apply(JSON.parse(this.unb64(r.content)));
+}).catch(() => viaSite());
 }
-
-loadWorksRaw() {
-const data = this.defaults();
-let stored = null;
-try { stored = JSON.parse(window.localStorage.getItem('trama_works_v1') || 'null'); } catch (err) { stored = null; }
-const pending = [];
-if (stored) {
-Object.keys(stored).forEach((key) => {
-const i = parseInt(key, 10);
-const sp = stored[key];
-if (!(i >= 0 && i < data.length) || !sp) return;
-const raw = Array.isArray(sp.media) ? sp.media : [];
-const media = raw.filter((m) => m && (m.t === 'img' || m.t === 'vid') && (m.k || m.u)).map((m) => (m.k ? { t: m.t, k: String(m.k), src: '' } : { t: m.t, u: String(m.u), src: String(m.u) }));
-const ci = (typeof sp.ci === 'number' && sp.ci >= 0 && sp.ci < media.length) ? sp.ci : 0;
-const str = (v) => (typeof v === 'string' ? v : '');
-data[i] = { name: str(sp.name), client: str(sp.client), service: str(sp.service), text: str(sp.text), team: str(sp.team), ci: ci, media: media, ed: true };
-media.forEach((m) => { if (m.k) pending.push(m.k); });
-});
-}
-this.setState({ data: data });
-if (pending.length) {
-Promise.all(pending.map((k) => this.idbGet(k).then((blob) => [k, blob]).catch(() => [k, null]))).then((list) => {
-const urls = {};
-list.forEach((it) => { if (it[1]) { try { urls[it[0]] = URL.createObjectURL(it[1]); } catch (err) {} } });
-const d = this.cloneData();
-d.forEach((p) => p.media.forEach((m) => { if (m.k && urls[m.k]) m.src = urls[m.k]; }));
-this.setState({ data: d });
-}).catch(() => {});
-}
-try {
-if (window.claude && window.claude.use) {
-window.claude.use('assets').then((a) => { this.assets = a || null; }).catch(() => {});
-}
-} catch (err) {}
+return viaSite();
 }
 
 queueSave() {
 if (this.saveTimer) clearTimeout(this.saveTimer);
-this.saveTimer = setTimeout(() => this.saveWorks(), 500);
+this.setState({ saveMsg: 'Guardando…' });
+this.saveTimer = setTimeout(() => { this.saveTimer = 0; this.saveWorks(); }, 1200);
 }
 
-saveWorks() {
-const d = (this.state || {}).data;
-if (!d) return;
-const out = {};
-let temp = false;
-d.forEach((p, i) => {
-if (!p.ed) return;
-const media = [];
-p.media.forEach((m) => {
-if (m.k) media.push({ t: m.t, k: m.k });
-else if (m.u) media.push({ t: m.t, u: m.u });
-else temp = true;
-});
-out[i] = { name: p.name, client: p.client, service: p.service, text: p.text, team: p.team, ci: p.ci, media: media };
-});
-let msg;
-try {
-window.localStorage.setItem('trama_works_v1', JSON.stringify(out));
+stamp() {
 const t = new Date();
-const hh = (t.getHours() < 10 ? '0' : '') + t.getHours();
-const mm = (t.getMinutes() < 10 ? '0' : '') + t.getMinutes();
-msg = temp ? 'Guardado a las ' + hh + ':' + mm + ', pero algunos archivos no se pudieron guardar y se pierden al cerrar.' : 'Guardado automáticamente a las ' + hh + ':' + mm + '.';
-} catch (err) {
-msg = 'No se pudo guardar en este dispositivo: los cambios se pierden al cerrar.';
+return (t.getHours() < 10 ? '0' : '') + t.getHours() + ':' + (t.getMinutes() < 10 ? '0' : '') + t.getMinutes();
 }
+
+saveWorks(retry) {
+const d = (this.state || {}).data;
+if (!d || !this.token()) return Promise.resolve();
+if (this.saving) { this.again = true; return Promise.resolve(); }
+const out = d.map((p) => ({
+name: p.name, client: p.client, service: p.service, text: p.text, team: p.team, ci: p.ci,
+media: p.media.filter((m) => m.u).map((m) => ({ t: m.t, u: m.u }))
+}));
+const body = { message: 'Actualizar trabajos', content: this.b64(JSON.stringify(out, null, 2) + '\n'), branch: 'main' };
+if (this.worksSha) body.sha = this.worksSha;
+this.saving = true;
+return this.gh('PUT', 'data/works.json', body).then((r) => {
+this.worksSha = r && r.content ? r.content.sha : this.worksSha;
+this.setState({ saveMsg: 'Guardado a las ' + this.stamp() + '. Se ve publicado en 1 o 2 minutos.' });
+}).catch((err) => {
+if ((err.status === 409 || err.status === 422) && !retry) {
+return this.gh('GET', 'data/works.json').then((r) => {
+this.worksSha = r ? r.sha : null;
+this.saving = false;
+return this.saveWorks(true);
+});
+}
+let msg = 'No se pudo guardar. Revisá la conexión y volvé a intentar.';
+if (err.status === 401) msg = 'La clave no es válida o venció. Tocá Salir y volvé a entrar.';
+if (err.status === 403 || err.status === 404) msg = 'La clave no tiene permiso para escribir en el repositorio tramastudio.';
 this.setState({ saveMsg: msg });
+}).then(() => {
+this.saving = false;
+if (this.again) { this.again = false; this.saveWorks(); }
+});
 }
 
 patch(obj) {
 const op = (this.state || {}).open;
 if (!(op >= 0)) return;
 const d = this.cloneData();
-Object.assign(d[op], obj, { ed: true });
-this.setState({ data: d, saveMsg: 'Guardando…' });
+Object.assign(d[op], obj);
+this.setState({ data: d });
 this.queueSave();
 }
 
@@ -619,14 +631,52 @@ o[t.name] = t.value;
 this.patch(o);
 };
 
-toggleEdit = () => this.setState({ edit: !((this.state || {}).edit) });
+toggleEdit = () => {
+const st = this.state || {};
+if (st.edit) {
+if (this.saveTimer) { clearTimeout(this.saveTimer); this.saveTimer = 0; this.saveWorks(); }
+this.setState({ edit: false });
+return;
+}
+if (!this.token()) { this.setState({ askToken: !st.askToken, tokMsg: '' }); return; }
+this.setState({ edit: true, askToken: false });
+};
+
+onToken = (e) => {
+if (e && e.preventDefault) e.preventDefault();
+const form = e && e.target;
+const field = form && form.elements ? form.elements.token : null;
+const v = field ? String(field.value || '').trim() : '';
+if (!v) { this.setState({ tokMsg: 'Pegá la clave.' }); return; }
+this.setState({ tokMsg: 'Verificando…' });
+this.gh('GET', '', null, v).then((repo) => {
+if (repo && repo.permissions && repo.permissions.push === false) {
+this.setState({ tokMsg: 'La clave funciona pero no permite escribir. Revisá el permiso Contents: Read and write.' });
+return;
+}
+try { window.localStorage.setItem('trama_gh_token', v); } catch (err) {}
+this.setState({ askToken: false, tokMsg: '', edit: true });
+this.loadWorks();
+}).catch((err) => {
+let msg = 'No se pudo verificar. Revisá la conexión.';
+if (err.status === 401) msg = 'La clave no es válida.';
+if (err.status === 403 || err.status === 404) msg = 'La clave no tiene acceso al repositorio tramastudio.';
+this.setState({ tokMsg: msg });
+});
+};
+
+logout = () => {
+if (this.saveTimer) { clearTimeout(this.saveTimer); this.saveTimer = 0; this.saveWorks(); }
+try { window.localStorage.removeItem('trama_gh_token'); } catch (err) {}
+this.setState({ edit: false, askToken: false });
+};
 
 resetP = () => {
 const op = (this.state || {}).open;
 if (!(op >= 0)) return;
 const d = this.cloneData();
 d[op] = this.defaults()[op];
-this.setState({ data: d, saveMsg: 'Guardando…' });
+this.setState({ data: d });
 this.queueSave();
 };
 
@@ -637,9 +687,38 @@ const d = this.cloneData();
 const p = d[op];
 p.media.splice(j, 1);
 if (j < p.ci) p.ci -= 1; else if (j === p.ci) p.ci = 0;
-p.ed = true;
-this.setState({ data: d, saveMsg: 'Guardando…' });
+this.setState({ data: d });
 this.queueSave();
+}
+
+shrink(f) {
+return new Promise((res) => {
+let url;
+try { url = URL.createObjectURL(f); } catch (err) { res(null); return; }
+const img = new Image();
+img.onload = () => {
+const M = 2200;
+const w = img.naturalWidth, h = img.naturalHeight;
+const k = Math.min(1, M / Math.max(w, h));
+const c = document.createElement('canvas');
+c.width = Math.max(1, Math.round(w * k));
+c.height = Math.max(1, Math.round(h * k));
+c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+URL.revokeObjectURL(url);
+c.toBlob((b) => res(b), 'image/jpeg', 0.86);
+};
+img.onerror = () => { URL.revokeObjectURL(url); res(null); };
+img.src = url;
+});
+}
+
+blobB64(blob) {
+return new Promise((res, rej) => {
+const fr = new FileReader();
+fr.onload = () => res(String(fr.result).split(',')[1] || '');
+fr.onerror = () => rej(fr.error);
+fr.readAsDataURL(blob);
+});
 }
 
 onFiles = (e) => {
@@ -647,29 +726,39 @@ const input = e && e.target;
 const files = input && input.files ? Array.prototype.slice.call(input.files) : [];
 const op = (this.state || {}).open;
 if (!files.length || !(op >= 0)) return;
-this.setState({ saveMsg: 'Subiendo ' + files.length + (files.length === 1 ? ' archivo…' : ' archivos…') });
-const jobs = files.map((f, n) => {
-const t = (f.type || '').indexOf('video') === 0 ? 'vid' : 'img';
-if (this.assets && this.assets.upload) {
-return this.assets.upload(f).then((r) => ({ t: t, u: r.url, src: r.url })).catch(() => this.storeLocal(f, t, n));
-}
-return this.storeLocal(f, t, n);
-});
-Promise.all(jobs).then((items) => {
-const d = this.cloneData();
-if (!d[op]) return;
-items.forEach((m) => d[op].media.push(m));
-d[op].ed = true;
-this.setState({ data: d });
-this.queueSave();
-try { input.value = ''; } catch (err) {}
-});
+if (!this.token()) { this.setState({ askToken: true }); return; }
+this.uploadAll(files, op).then(() => { try { input.value = ''; } catch (err) {} });
 };
 
-storeLocal(f, t, n) {
-const k = 'm' + Date.now() + '_' + n + '_' + Math.round(Math.random() * 1e6);
-const src = URL.createObjectURL(f);
-return this.idbPut(k, f).then(() => ({ t: t, k: k, src: src })).catch(() => ({ t: t, src: src }));
+async uploadAll(files, op) {
+let ok = 0;
+const fails = [];
+for (let i = 0; i < files.length; i++) {
+const f = files[i];
+this.setState({ saveMsg: 'Subiendo ' + (i + 1) + ' de ' + files.length + '…' });
+try {
+const isVid = (f.type || '').indexOf('video') === 0;
+const ext0 = ((f.name || '').split('.').pop() || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+let blob = f;
+let ext = ext0 || (isVid ? 'mp4' : 'jpg');
+if (!isVid) {
+const small = await this.shrink(f);
+if (small) { blob = small; ext = 'jpg'; }
+}
+if (blob.size > 95 * 1024 * 1024) { fails.push((f.name || 'archivo') + ' (pesa más de 95 MB)'); continue; }
+const path = 'media/trabajo-' + (op + 1) + '/' + Date.now() + '-' + i + '.' + ext;
+const content = await this.blobB64(blob);
+await this.gh('PUT', path, { message: 'Subir archivo a trabajo ' + (op + 1), content: content, branch: 'main' });
+const d = this.cloneData();
+d[op].media.push({ t: isVid ? 'vid' : 'img', u: path, src: URL.createObjectURL(blob) });
+this.setState({ data: d });
+ok++;
+} catch (err) {
+fails.push((f.name || 'archivo') + (err && err.status === 401 ? ' (clave inválida)' : ''));
+}
+}
+if (ok) this.queueSave();
+if (fails.length) this.setState({ saveMsg: (ok ? 'Se subieron ' + ok + '. ' : '') + 'No se pudo subir: ' + fails.join(', ') + '.' });
 }
 
 open0 = () => this.setState({ open: 0, edit: false });
@@ -1171,9 +1260,9 @@ tv['t' + i + 'has'] = !!c;
 tv['t' + i + 'no'] = !c;
 }
 const media = P ? P.media.map((m, j) => ({
-src: m.src || '',
-isImg: m.t === 'img' && !!m.src,
-isVid: m.t === 'vid' && !!m.src,
+src: m.src || m.u || '',
+isImg: m.t === 'img' && !!(m.src || m.u),
+isVid: m.t === 'vid' && !!(m.src || m.u),
 ed: editing,
 alt: label(op) + ', foto ' + (j + 1),
 coverTxt: j === P.ci ? 'Es la portada' : 'Usar de portada',
@@ -1202,6 +1291,10 @@ pOpen: op >= 0,
 editing: editing,
 viewing: !editing,
 pEmpty: !editing && media.length === 0,
+askToken: !!st.askToken && op >= 0,
+tokMsg: st.tokMsg || '',
+onToken: this.onToken,
+logout: this.logout,
 editTxt: editing ? 'Listo' : 'Editar',
 canEdit: /[?&]edit\b/.test(window.location.search),
 saveMsg: st.saveMsg || '',
