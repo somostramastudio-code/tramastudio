@@ -969,40 +969,7 @@
     "service": "Asistente de Estilismo y Produccion",
     "text": "",
     "team": "ph: Ezequiel Salvatierra \ndirector creativo: Pablo Bernard \nproductora: Dee Dee Cauver",
-    "ci": 2,
-    "media": [
-      {
-        "t": "img",
-        "u": "media/trabajo-13/1794934786757-8.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-13/1794934788518-9.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-13/1794934790481-10.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-13/1794934793101-11.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-13/1794934795037-12.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-13/1794934796821-13.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-13/1794934799399-14.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-13/1794934801224-15.jpg"
-      }
-    ]
+    "ci": 0,
+    "media": []
   }
 ]
