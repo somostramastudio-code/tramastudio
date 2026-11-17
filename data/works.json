@@ -699,11 +699,27 @@
     "service": "Redes y Branding ",
     "text": "",
     "team": "Creación y edición del contenido: Oriana Sorrentino\nBranding: Oriana Sorrentino",
-    "ci": 0,
+    "ci": 1,
     "media": [
       {
         "t": "vid",
         "u": "media/trabajo-10/1794927207512-0.mov"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-10/1794927568773-0.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-10/1794927570826-1.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-10/1794927573031-2.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-10/1794927575092-3.jpg"
       }
     ]
   }
