@@ -158,63 +158,32 @@ button:focus-visible,a:focus-visible{outline:2px solid #FFCAD0;outline-offset:-6
 <section id="trabajos" style="position: relative; overflow: hidden; background: #FFCAD0; color: #000000; padding: clamp(52px, 7vw, 92px) 0">
 <div id="trama-works-head" class="wk {{wkOn}}" style="max-width: 1104px; margin: 0 auto; padding: 0 14px; display: flex; flex-direction: column; align-items: center; gap: clamp(16px, 2.6vw, 34px)">
 <div class="rt" style="display: flex; justify-content: center; gap: clamp(6px, 1.2vw, 16px)">
-<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ open0 }}" aria-label="{{ t0name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: #000000">
-<sc-if value="{{ t0has }}" hint-placeholder-val="{{ false }}"><img src="{{ t0src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
-<sc-if value="{{ t0no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: #FEFFFA">01</span></sc-if>
-<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t0name}}</span>
+<sc-for list="{{ topTiles }}" as="t" hint-placeholder-count="5">
+<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ t.open }}" aria-label="{{ t.name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: {{t.bg}}">
+<sc-if value="{{ t.has }}" hint-placeholder-val="{{ false }}"><img src="{{ t.src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
+<sc-if value="{{ t.no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: {{t.fg}}">{{t.num}}</span></sc-if>
+<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t.name}}</span>
 </button></div>
-<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ open1 }}" aria-label="{{ t1name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: #FEFFFA">
-<sc-if value="{{ t1has }}" hint-placeholder-val="{{ false }}"><img src="{{ t1src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
-<sc-if value="{{ t1no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: #000000">02</span></sc-if>
-<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t1name}}</span>
-</button></div>
-<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ open2 }}" aria-label="{{ t2name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: #000000">
-<sc-if value="{{ t2has }}" hint-placeholder-val="{{ false }}"><img src="{{ t2src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
-<sc-if value="{{ t2no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: #FEFFFA">03</span></sc-if>
-<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t2name}}</span>
-</button></div>
-<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ open3 }}" aria-label="{{ t3name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: #FEFFFA">
-<sc-if value="{{ t3has }}" hint-placeholder-val="{{ false }}"><img src="{{ t3src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
-<sc-if value="{{ t3no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: #000000">04</span></sc-if>
-<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t3name}}</span>
-</button></div>
-<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ open4 }}" aria-label="{{ t4name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: #000000">
-<sc-if value="{{ t4has }}" hint-placeholder-val="{{ false }}"><img src="{{ t4src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
-<sc-if value="{{ t4no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: #FEFFFA">05</span></sc-if>
-<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t4name}}</span>
-</button></div>
+</sc-for>
 </div>
 <div style="position: relative; display: flex; align-items: center; justify-content: center; font-size: clamp(60px, 12vw, 160px); line-height: 1">
 <div class="ball" aria-hidden="true" style="position: absolute; left: calc(50% - 0.09em); top: calc(50% - 0.09em); width: 0.18em; height: 0.18em; border-radius: 50%; background: #000000"></div>
 <h2 class="word" style="margin: 0; padding: 0 0.1em; font-family: 'Times New Roman', Times, serif; font-style: italic; font-weight: 400; font-size: 1em; line-height: 1; letter-spacing: -0.015em">Trabajos</h2>
 </div>
+<sc-for list="{{ tileRows }}" as="row" hint-placeholder-count="1">
 <div class="rb" style="display: flex; justify-content: center; gap: clamp(6px, 1.2vw, 16px)">
-<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ open5 }}" aria-label="{{ t5name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: #FEFFFA">
-<sc-if value="{{ t5has }}" hint-placeholder-val="{{ false }}"><img src="{{ t5src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
-<sc-if value="{{ t5no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: #000000">06</span></sc-if>
-<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t5name}}</span>
+<sc-for list="{{ row.items }}" as="t" hint-placeholder-count="5">
+<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ t.open }}" aria-label="{{ t.name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: {{t.bg}}">
+<sc-if value="{{ t.has }}" hint-placeholder-val="{{ false }}"><img src="{{ t.src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
+<sc-if value="{{ t.no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: {{t.fg}}">{{t.num}}</span></sc-if>
+<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t.name}}</span>
 </button></div>
-<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ open6 }}" aria-label="{{ t6name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: #000000">
-<sc-if value="{{ t6has }}" hint-placeholder-val="{{ false }}"><img src="{{ t6src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
-<sc-if value="{{ t6no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: #FEFFFA">07</span></sc-if>
-<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t6name}}</span>
-</button></div>
-<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ open7 }}" aria-label="{{ t7name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: #FEFFFA">
-<sc-if value="{{ t7has }}" hint-placeholder-val="{{ false }}"><img src="{{ t7src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
-<sc-if value="{{ t7no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: #000000">08</span></sc-if>
-<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t7name}}</span>
-</button></div>
-<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ open8 }}" aria-label="{{ t8name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: #000000">
-<sc-if value="{{ t8has }}" hint-placeholder-val="{{ false }}"><img src="{{ t8src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
-<sc-if value="{{ t8no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: #FEFFFA">09</span></sc-if>
-<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t8name}}</span>
-</button></div>
-<div class="slot" style="position: relative"><button type="button" class="tile" onClick="{{ open9 }}" aria-label="{{ t9name }}" style="position: relative; display: block; width: clamp(62px, 17vw, 150px); height: clamp(84px, 23vw, 204px); padding: 0; border: none; cursor: pointer; overflow: hidden; font-family: inherit; background: #FEFFFA">
-<sc-if value="{{ t9has }}" hint-placeholder-val="{{ false }}"><img src="{{ t9src }}" alt="" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block"></sc-if>
-<sc-if value="{{ t9no }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: 8px; top: 6px; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: clamp(18px, 3.4vw, 40px); line-height: 1; color: #000000">10</span></sc-if>
-<span class="nm" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.82)); color: #FEFFFA; font-weight: 800; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.15; text-align: left">{{t9name}}</span>
-</button></div>
+</sc-for>
 </div>
+</sc-for>
+<sc-if value="{{ canAdd }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ addWork }}" style="min-height: 48px; padding: 0 22px; background: #000000; color: #FFCAD0; border: none; border-radius: 999px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 19px">+ Agregar trabajo</button>
+</sc-if>
 </div>
 <sc-if value="{{ pOpen }}" hint-placeholder-val="{{ false }}">
 <div id="trama-project" class="pin" style="margin-top: clamp(40px, 6vw, 72px); margin-bottom: calc(-1 * clamp(52px, 7vw, 92px)); background: #000000; color: #FEFFFA; padding: clamp(36px, 6vw, 80px) clamp(16px, 5vw, 72px) clamp(56px, 8vw, 100px)">
@@ -244,7 +213,8 @@ button:focus-visible,a:focus-visible{outline:2px solid #FFCAD0;outline-offset:-6
 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 1px solid #FFCAD0">
 <span role="status" style="font-size: 14px; font-weight: 500; color: #FFCAD0">{{saveMsg}}</span>
 <button type="button" onClick="{{ resetP }}" style="min-height: 44px; padding: 0 12px; background: #000000; color: #FEFFFA; border: 1px solid rgba(254,255,250,0.6); cursor: pointer; font-family: 'Raleway', system-ui, sans-serif; font-size: 13px; font-weight: 500">Restaurar este trabajo</button>
-<button type="button" onClick="{{ logout }}" style="min-height: 44px; padding: 0 12px; background: #000000; color: #FEFFFA; border: 1px solid rgba(254,255,250,0.6); cursor: pointer; font-family: 'Raleway', system-ui, sans-serif; font-size: 13px; font-weight: 500">Salir</button>
+<sc-if value="{{ canDel }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ delWork }}" style="min-height: 44px; padding: 0 12px; background: #000000; color: #FEFFFA; border: 1px solid rgba(254,255,250,0.6); cursor: pointer; font-family: 'Raleway', system-ui, sans-serif; font-size: 13px; font-weight: 500">Eliminar este trabajo</button></sc-if>
+<button type="button" onClick="{ logout }" style="min-height: 44px; padding: 0 12px; background: #000000; color: #FEFFFA; border: 1px solid rgba(254,255,250,0.6); cursor: pointer; font-family: 'Raleway', system-ui, sans-serif; font-size: 13px; font-weight: 500">Salir</button>
 </div>
 </sc-if>
 <div style="columns: 4 160px; column-gap: 8px">
@@ -541,8 +511,13 @@ return j;
 }));
 }
 
+blank() {
+return { name: '', client: '', service: '', text: '', team: '', ci: 0, media: [] };
+}
+
 normalize(arr) {
 const base = this.defaults();
+while (base.length < arr.length) base.push(this.blank());
 const str = (v) => (typeof v === 'string' ? v : '');
 for (let i = 0; i < base.length; i++) {
 const sp = arr[i];
@@ -665,6 +640,30 @@ this.setState({ tokMsg: msg });
 });
 };
 
+addWork = () => {
+if (!this.token()) return;
+const d = this.cloneData();
+d.push(this.blank());
+this.setState({ data: d, open: d.length - 1, edit: true, askToken: false });
+this.queueSave();
+};
+
+delWork = () => {
+const op = (this.state || {}).open;
+if (!(op >= 10)) return;
+let ok = true;
+try { ok = window.confirm('¿Eliminar este trabajo? Se borra del sitio.'); } catch (err) { ok = true; }
+if (!ok) return;
+const d = this.cloneData();
+d.splice(op, 1);
+this.setState({ data: d, open: -1, edit: false });
+this.queueSave();
+};
+
+openWork(i) {
+this.setState({ open: i, edit: false });
+}
+
 logout = () => {
 if (this.saveTimer) { clearTimeout(this.saveTimer); this.saveTimer = 0; this.saveWorks(); }
 try { window.localStorage.removeItem('trama_gh_token'); } catch (err) {}
@@ -675,7 +674,7 @@ resetP = () => {
 const op = (this.state || {}).open;
 if (!(op >= 0)) return;
 const d = this.cloneData();
-d[op] = this.defaults()[op];
+d[op] = this.defaults()[op] || this.blank();
 this.setState({ data: d });
 this.queueSave();
 };
@@ -1244,7 +1243,7 @@ const data = st.data || this.defaults();
 const op = typeof st.open === 'number' ? st.open : -1;
 const editing = !!st.edit && op >= 0;
 const P = op >= 0 ? data[op] : null;
-const label = (i) => data[i].name || '[Proyecto ' + (i < 9 ? '0' : '') + (i + 1) + ']';
+const label = (i) => (data[i] && data[i].name) || '[Proyecto ' + (i < 9 ? '0' : '') + (i + 1) + ']';
 const coverOf = (p) => {
 const c = p.media[p.ci];
 if (c && c.t === 'img' && c.src) return c.src;
@@ -1252,13 +1251,24 @@ for (let j = 0; j < p.media.length; j++) { if (p.media[j].t === 'img' && p.media
 return '';
 };
 const tv = {};
-for (let i = 0; i < 10; i++) {
-const c = coverOf(data[i]);
-tv['t' + i + 'name'] = label(i);
-tv['t' + i + 'src'] = c;
-tv['t' + i + 'has'] = !!c;
-tv['t' + i + 'no'] = !c;
-}
+const tiles = data.map((p, i) => {
+const c = coverOf(p);
+return {
+name: label(i), src: c, has: !!c, no: !c,
+num: (i < 9 ? '0' : '') + (i + 1),
+bg: i % 2 === 0 ? '#000000' : '#FEFFFA',
+fg: i % 2 === 0 ? '#FEFFFA' : '#000000',
+open: () => this.openWork(i)
+};
+});
+const tileRows = [];
+for (let i = 5; i < tiles.length; i += 5) tileRows.push({ items: tiles.slice(i, i + 5) });
+tv.topTiles = tiles.slice(0, 5);
+tv.tileRows = tileRows;
+tv.canAdd = this.canEdit() && !!this.token();
+tv.canDel = !!st.edit && op >= 10;
+tv.addWork = this.addWork;
+tv.delWork = this.delWork;
 const media = P ? P.media.map((m, j) => ({
 src: m.src || m.u || '',
 isImg: m.t === 'img' && !!(m.src || m.u),
