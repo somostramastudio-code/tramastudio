@@ -874,7 +874,7 @@
     "client": "CherMix",
     "service": "Asistente de producción y estilismo",
     "text": "",
-    "team": "Pr",
+    "team": "Director Creativo: Pabl",
     "ci": 0,
     "media": [
       {
@@ -908,6 +908,18 @@
       {
         "t": "img",
         "u": "media/trabajo-12/1794934488582-11.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-12/1794934493420-13.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-12/1794934495859-14.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-12/1794934497915-15.jpg"
       }
     ]
   }
