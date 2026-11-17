@@ -870,8 +870,8 @@
     ]
   },
   {
-    "name": "CHER ",
-    "client": "",
+    "name": "CHER BAFWEEK",
+    "client": "CherMix",
     "service": "",
     "text": "",
     "team": "",
@@ -884,6 +884,14 @@
       {
         "t": "img",
         "u": "media/trabajo-12/1794934464895-1.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-12/1794934471986-4.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-12/1794934474856-5.jpg"
       }
     ]
   }
