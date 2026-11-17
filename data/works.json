@@ -537,58 +537,42 @@
     "service": "Creación de contenido y diseño de piezas para redes",
     "text": "",
     "team": "Creación y edición del contenido: Oriana Sorrentino\nDiseño Gráfico: Oriana Sorrentino",
-    "ci": 0,
-    "media": []
-  },
-  {
-    "name": "LA NUEVA Redes",
-    "client": "LA NUEVA BAKERY",
-    "service": "Redes",
-    "text": "",
-    "team": "Creación y edición del contenido: Oriana Sorrentino\nDiseño gráfico: Sofía Ugrotte\n",
     "ci": 4,
     "media": [
       {
         "t": "vid",
-        "u": "media/trabajo-8/1794917134632-0.mov"
+        "u": "media/trabajo-7/1794916974733-0.mp4"
       },
       {
         "t": "img",
-        "u": "media/trabajo-8/1794917364533-0.jpg"
+        "u": "media/trabajo-7/1794916995622-0.jpg"
       },
       {
         "t": "img",
-        "u": "media/trabajo-8/1794917367379-1.jpg"
+        "u": "media/trabajo-7/1794916997898-1.jpg"
       },
       {
         "t": "img",
-        "u": "media/trabajo-8/1794917369739-2.jpg"
+        "u": "media/trabajo-7/1794917010974-0.jpg"
       },
       {
         "t": "img",
-        "u": "media/trabajo-8/1794917372191-3.jpg"
+        "u": "media/trabajo-7/1794917013085-1.jpg"
       },
       {
         "t": "img",
-        "u": "media/trabajo-8/1794917552189-0.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-8/1794917554469-1.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-8/1794917557231-2.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-8/1794917559482-3.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-8/1794917561733-4.jpg"
+        "u": "media/trabajo-7/1794917015244-2.jpg"
       }
     ]
+  },
+  {
+    "name": "",
+    "client": "",
+    "service": "",
+    "text": "",
+    "team": "",
+    "ci": 0,
+    "media": []
   },
   {
     "name": "",
