@@ -874,7 +874,7 @@
     "client": "CherMix",
     "service": "Asistente de producción y estilismo",
     "text": "",
-    "team": "Director Creativo: Pabl",
+    "team": "Director Creativo: Pablo Berna",
     "ci": 0,
     "media": [
       {
@@ -920,6 +920,10 @@
       {
         "t": "img",
         "u": "media/trabajo-12/1794934497915-15.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-12/1794934502624-17.jpg"
       }
     ]
   }
