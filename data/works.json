@@ -870,12 +870,21 @@
     ]
   },
   {
-    "name": "",
+    "name": "CHER",
     "client": "",
     "service": "",
     "text": "",
     "team": "",
     "ci": 0,
-    "media": []
+    "media": [
+      {
+        "t": "img",
+        "u": "media/trabajo-12/1794934462199-0.jpg"
+      },
+      {
+        "t": "img",
+        "u": "media/trabajo-12/1794934464895-1.jpg"
+      }
+    ]
   }
 ]
