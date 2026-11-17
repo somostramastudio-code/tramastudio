@@ -537,33 +537,8 @@
     "service": "Creación de contenido y diseño de piezas para redes",
     "text": "",
     "team": "Creación y edición del contenido: Oriana Sorrentino\nDiseño Gráfico: Oriana Sorrentino",
-    "ci": 1,
-    "media": [
-      {
-        "t": "img",
-        "u": "media/trabajo-7/1794916649772-1.jpg"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-7/1794916652021-2.jpg"
-      },
-      {
-        "t": "vid",
-        "u": "media/trabajo-7/1794916654112-3.mp4"
-      },
-      {
-        "t": "vid",
-        "u": "media/trabajo-7/1794916664559-4.mp4"
-      },
-      {
-        "t": "img",
-        "u": "media/trabajo-7/1794916668609-5.jpg"
-      },
-      {
-        "t": "vid",
-        "u": "media/trabajo-7/1794916670133-6.mp4"
-      }
-    ]
+    "ci": 0,
+    "media": []
   },
   {
     "name": "",
