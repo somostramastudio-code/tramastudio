@@ -618,7 +618,12 @@
     "text": "",
     "team": "",
     "ci": 0,
-    "media": []
+    "media": [
+      {
+        "t": "vid",
+        "u": "media/trabajo-9/1794918245244-0.mp4"
+      }
+    ]
   },
   {
     "name": "",
